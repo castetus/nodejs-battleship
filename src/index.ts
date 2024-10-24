@@ -1,15 +1,21 @@
-import { WebSocketServer } from 'ws'
+import { WebSocketServer } from 'ws';
+import dotenv from 'dotenv';
+import { handleMessage } from './handleMessage.js';
+import { IMessage } from './types.js';
 
-const port = Number(process.env.PORT) || 8080;
+dotenv.config();
+
+const port = Number(process.env.PORT) || 3000;
 const server = new WebSocketServer({ port });
 
 server.on('connection', (socket) => {
   console.log('Client connected');
 
   socket.on('message', (message) => {
-    console.log('Received:', message);
-    // Echo the message back to the client
-    socket.send(`Server: ${message}`);
+    console.log('Received:', message.toString());
+    const response = handleMessage(message.toString() as unknown as IMessage);
+    console.log(response)
+    socket.send(JSON.stringify(response));
   });
 
   socket.on('close', () => {
