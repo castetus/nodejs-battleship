@@ -28,6 +28,7 @@ export interface IMessage {
 export type IMessageWOId = Omit<IMessage, 'id'>;
 
 export interface IUser {
+  id: IdType;
   name: string;
   index: IdType;
 }
@@ -37,6 +38,24 @@ export interface IRoom {
   roomUsers: IUser[];
 }
 
-export interface IField {
-
+export interface IShip {
+  position: {
+    x: number,
+    y: number,
+  };
+  direction: boolean;
+  length: number;
+  type: 'small' | 'medium' | 'large' | 'huge';
 }
+
+export interface IField {
+  ships: IShip[];
+}
+
+export interface IGame {
+  idGame: IdType;
+  players: {
+      [key: IdType]: IField;
+  };
+}
+
