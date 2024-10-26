@@ -44,10 +44,11 @@ class Db {
 
   addShips(gameId: IdType, playerId: IdType, ships: IShip[]) {
     const game = this.games.get(gameId);
-    if (game) {
+    const playerIndex = game?.players.findIndex((player) => player.playerId === playerId);
+    if (game && playerIndex !== undefined && playerIndex !== -1) {
+      game.players[playerIndex].ships = ships;
       this.games.set(gameId, {
         ...game,
-        shipsSet: true,
       });
     }
   };

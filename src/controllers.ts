@@ -47,9 +47,8 @@ export const addUserToRoom = (userId: IdType, roomId: IdType) => {
   }
   const game = createNewGame(roomId);
   if (game) {
-    const players = Object.keys(game.players);
-    return players.map((player) => ({
-      idPlayer: player,
+    return game.players.map((player) => ({
+      idPlayer: player.playerId,
       idGame: game.idGame,
     }));
   }
@@ -99,7 +98,7 @@ const checkIsReady = (gameId: IdType): boolean => {
 }
 
 export const addShips = (gameId: IdType, playerId: IdType, ships: IShip[]) => {
-  Db.addShips(gameId, playerId, ships,);
+  Db.addShips(gameId, playerId, ships);
   return checkIsReady(gameId);
 };
 
