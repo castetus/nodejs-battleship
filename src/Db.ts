@@ -1,4 +1,4 @@
-import { IRoom, IUser } from "./types.js";
+import { IdType, IRoom, IUser } from "./types.js";
 
 class Db {
   private users: IUser[] = [];
@@ -8,8 +8,20 @@ class Db {
     return this.users;
   }
 
+  getUserById(id: IdType) {
+    return this.users.find((user) => user.index === id);
+  }
+
   registerUser(user: IUser) {
     this.users.push(user);
+  }
+
+  addRoom(room: IRoom) {
+    this.rooms.push(room);
+  }
+
+  getRooms() {
+    return this.rooms;
   }
 
   updateRooms() {

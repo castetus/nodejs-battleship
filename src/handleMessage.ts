@@ -1,6 +1,6 @@
 import { CustomWebSocket, IMessage, MessageType } from "./types.js";
 import Db from './Db.js';
-import { addNewUser } from "./controllers.js";
+import { addNewUser, createNewRoom } from "./controllers.js";
 
 export const handleMessage = (client: CustomWebSocket, message: IMessage) => {
   const { type, data } = message;
@@ -16,6 +16,6 @@ export const handleMessage = (client: CustomWebSocket, message: IMessage) => {
     case MessageType.REG:
       return addNewUser(payload);
     case MessageType.CREATE_ROOM:
-      return '';
+      return createNewRoom(client.id);
   }
 };

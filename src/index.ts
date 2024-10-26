@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import { handleMessage } from './handleMessage.js';
 import { CustomWebSocket, IdType, IMessage, MessageType } from './types.js';
 import { v4 as uuidv4 } from 'uuid';
-import { checkUser } from './helpers.js';
 
 dotenv.config();
 

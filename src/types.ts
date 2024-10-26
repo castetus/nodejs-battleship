@@ -20,6 +20,8 @@ export interface IMessage {
   id: 0;
 }
 
+export type IMessageWOId = Omit<IMessage, 'id'>;
+
 export interface IUser {
   name: string;
   index: IdType;
