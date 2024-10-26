@@ -16,7 +16,10 @@ export const addNewUser = (user: IUser): IMessageWOId => {
 
 export const addUserToRoom = (userId: IdType, roomId: IdType) => {
   const user = Db.getUserById(userId);
-  // const room = 
+  if (user) {
+    Db.addUserToRoom(user, roomId);
+  }
+  updateRooms();
 }
 
 export const createNewRoom = (id: IdType)=> {
@@ -44,5 +47,9 @@ export const updateRooms = (): IMessageWOId => {
     type: MessageType.UPDATE_ROOM,
     data: JSON.stringify(availableRooms),
   };
-}
+};
+
+export const createGame = () => {
+
+};
 

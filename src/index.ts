@@ -1,7 +1,7 @@
 import { WebSocket, WebSocketServer } from 'ws';
 import dotenv from 'dotenv';
 import { handleMessage } from './handleMessage.js';
-import { CustomWebSocket, IdType, IMessage, MessageType } from './types.js';
+import { CustomWebSocket, IdType, IMessage, IMessageWOId, MessageType } from './types.js';
 import { v4 as uuidv4 } from 'uuid';
 
 dotenv.config();
@@ -19,7 +19,7 @@ server.on('connection', (ws: WebSocket) => {
   client.on('message', (message) => {
     console.log(`Received message: ${message} from client ${client.id}`);
     
-    handleMessage(client, JSON.parse(message.toString()) as unknown as IMessage);
+    handleMessage(client.id, JSON.parse(message.toString()) as unknown as IMessage);
   });
 
   client.on('close', () => {
@@ -28,16 +28,16 @@ server.on('connection', (ws: WebSocket) => {
   });
 });
 
-export const sendMessageToClient = (clientId: IdType, message: string) => {
+export const sendMessageToClient = (clientId: IdType, message: IMessageWOId) => {
   const client = clients.get(clientId);
   if (client && client.readyState === WebSocket.OPEN) {
-    client.send(JSON.stringify(message));
+    client.send(JSON.stringify({ ...message, id: 0 }));
   } else {
     console.log(`Client ${clientId} not found or not open`);
   }
 };
 
-export const sendMessageToAll = (message: MessageType) => {
+export const sendMessageToAll = (message: IMessageWOId) => {
   for (const client of clients.values()) {
     sendMessageToClient(client.id, message);
   }
