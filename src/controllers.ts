@@ -1,5 +1,5 @@
 import Db from "./Db.js";
-import { IdType, IGame, IMessage, IMessageWOId, IRoom, IUser, MessageType } from "./types.js";
+import { IdType, IGame, IMessage, IMessageWOId, IRoom, IShip, IUser, MessageType } from "./types.js";
 import { v4 as uuidv4 } from 'uuid';
 
 export const addNewUser = (userId: IdType, user: IUser): IMessageWOId => {
@@ -73,18 +73,33 @@ export const createNewGame = (roomId: IdType) => {
   }
   const newGame: IGame = {
     idGame: uuidv4(),
-    players: {
-      [roomUsers[0].id]: {
-        ships: [],
+    players: [
+      {
+        playerId: roomUsers[0].id,
+        ships: [] as IShip[],
       },
-      [roomUsers[1].id]: {
-        ships: [],
+      {
+        playerId: roomUsers[1].id,
+        ships: [] as IShip[],
       }
-    }
+    ]
   }
 
   Db.createGame(newGame);
 
   return newGame;
+};
+
+const checkIsReady = (gameId: IdType): boolean => {
+  const game = Db.getGameById(gameId);
+  if (game && game.players.every((player) => player.ships.length)) {
+    return true;
+  }
+  return false;
+}
+
+export const addShips = (gameId: IdType, playerId: IdType, ships: IShip[]) => {
+  Db.addShips(gameId, playerId, ships,);
+  return checkIsReady(gameId);
 };
 

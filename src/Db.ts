@@ -1,9 +1,10 @@
-import { IdType, IGame, IRoom, IUser } from "./types.js";
+import { IdType, IGame, IRoom, IShip, IUser } from "./types.js";
 
 class Db {
   private users = new Map<IdType, IUser>;
   private rooms = new Map<IdType, IRoom>;
   private games = new Map<IdType, IGame>;
+  private currentPlayer: IdType | undefined;
 
   getUsers() {
     return Array.from(this.users.values());
@@ -40,6 +41,28 @@ class Db {
   createGame(game: IGame) {
     this.games.set(game.idGame, game);
   };
+
+  addShips(gameId: IdType, playerId: IdType, ships: IShip[]) {
+    const game = this.games.get(gameId);
+    if (game) {
+      this.games.set(gameId, {
+        ...game,
+        shipsSet: true,
+      });
+    }
+  };
+
+  getGameById(gameId: IdType) {
+    return this.games.get(gameId);
+  }
+
+  getCurrentPlayer() {
+    return this.currentPlayer;
+  }
+
+  setCurrentPlayer(currentPlayer: IdType) {
+    this.currentPlayer = currentPlayer;
+  }
 }
 
 export default new Db();

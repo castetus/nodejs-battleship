@@ -14,6 +14,7 @@ export enum MessageType {
   CREATE_GAME = 'create_game',
   ADD_USER_TO_ROOM = 'add_user_to_room',
   START_GAME = 'start_game',
+  ADD_SHIPS = 'add_ships',
   TURN = 'turn',
   ATTACK = 'attack',
   FINISH = 'finish',
@@ -54,8 +55,19 @@ export interface IField {
 
 export interface IGame {
   idGame: IdType;
-  players: {
-      [key: IdType]: IField;
-  };
+  shipsSet?: boolean;
+  // players: {
+  //     [key: IdType]: IField;
+  // };
+  players: [
+    {
+      playerId: IdType;
+      ships: IShip[];
+    },
+    {
+      playerId: IdType;
+      ships: IShip[];
+    },
+  ]
 }
 

@@ -5,6 +5,7 @@ import {
   updateRooms,
   addUserToRoom,
   createNewGame,
+  addShips,
 } from "./controllers.js";
 import { sendMessageToAll, sendMessageToClient } from "./index.js";
 
@@ -40,6 +41,17 @@ export const handleMessage = (clientId: IdType, message: IMessage) => {
         }
       }
       break;
-    // case 
+    case MessageType.ADD_SHIPS:
+      const { gameId, ships, indexPlayer } = payload;
+      const isReady = addShips(gameId, indexPlayer, ships);
+      if (isReady) {
+        sendMessageToAll({
+          type: MessageType.START_GAME,
+          data: '',
+        });
+      }
+      break;
+    case MessageType.TURN:
+      break;
   }
 };
