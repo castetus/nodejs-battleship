@@ -49,9 +49,11 @@ export const handleMessage = (clientId: IdType, message: IMessage) => {
           type: MessageType.START_GAME,
           data: '',
         });
+        sendMessageToAll({
+          type: MessageType.TURN,
+          data: '',
+        });
       }
-      break;
-    case MessageType.TURN:
       break;
   }
 };

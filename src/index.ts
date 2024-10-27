@@ -43,6 +43,6 @@ export const sendMessageToAll = (message: IMessageWOId) => {
   }
 };
 
-// process.on('exit', server.close);
+process.on('exit', server.close);
 
 console.log(`WebSocket server is running on ws://localhost:${port}`);

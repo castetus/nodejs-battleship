@@ -11,7 +11,6 @@ class Db {
   }
 
   getUserById(id: IdType) {
-    console.log(this.users, id)
     return this.users.get(id);
   }
 
